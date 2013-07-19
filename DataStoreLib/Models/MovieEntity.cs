@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace DataStoreLib.Models
 {
-    class ModelEntity : ITableEntity
+    public class MovieEntity : TableEntity
     {
 #region table members
+        private static readonly string PARTITION_KEY = "CloudMovie";
 
         public string MovieId {get; set;}
         public string Name {get; set;}
@@ -21,7 +22,50 @@ namespace DataStoreLib.Models
         public bool HotOrNot { get; set; }
 #endregion
 
-        #region GetMethods
+        protected MovieEntity(string rowKey)
+            : base(PARTITION_KEY, rowKey)
+        {
+        }
+
+        public MovieEntity(MovieEntity entity)
+            : base(PARTITION_KEY, entity.RowKey)
+        {
+            MovieId = entity.MovieId;
+            Name = entity.Name;
+            Actors = entity.Actors;
+            Directors = entity.Directors;
+            Producers = entity.Producers;
+            MusicDirectors = entity.MusicDirectors;
+            ReviewIds = entity.ReviewIds;
+            AggregateRating = entity.AggregateRating;
+            HotOrNot = entity.HotOrNot;
+        }
+
+        public static MovieEntity CreateMovieEntity(string name, 
+                                                    string actors, 
+                                                    string directors, 
+                                                    string producers, 
+                                                    string musicDirecotrs, 
+                                                    string reviewIds, 
+                                                    string aggregateRating, 
+                                                    bool hotOrNot)
+        {
+            var movieId = Guid.NewGuid().ToString();
+            var entity = new MovieEntity(movieId);
+            entity.MovieId = movieId;
+            entity.Name = name;
+            entity.Actors = actors;
+            entity.Directors = directors;
+            entity.Producers = producers;
+            entity.MusicDirectors = musicDirecotrs;
+            entity.ReviewIds = reviewIds;
+            entity.AggregateRating = aggregateRating;
+            entity.HotOrNot = hotOrNot;
+
+            return entity;
+        }
+
+        #region AccessMethods
         public List<string> GetActors()
         {
             return Utils.utils.GetListFromCommaSeparatedString(Actors);
@@ -45,9 +89,7 @@ namespace DataStoreLib.Models
         public List<string> GetReviewIds()
         {
             return Utils.utils.GetListFromCommaSeparatedString(ReviewIds);
-        }
-
-        #endregion
+        } 
 
         public void SetActors(List<string> list)
         {
@@ -69,5 +111,6 @@ namespace DataStoreLib.Models
             ReviewIds = Utils.utils.GetCommaSeparatedStringFromList(list);
         }
 
+        #endregion
     }
 }

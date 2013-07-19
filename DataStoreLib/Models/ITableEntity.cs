@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.StorageClient;
 
 namespace DataStoreLib.Models
 {
-    class ITableEntity
+    public class TableEntity : TableServiceEntity
     {
         #region table elements
-        public string ParitionKey {get; set;}
-        public string RowKey {get; set;}
-
+        // none here, implements the base classs
         #endregion
+
+        protected TableEntity(string partitionKey, string rowKey)
+            : base(partitionKey, rowKey)
+        {
+        }
     }
 }
