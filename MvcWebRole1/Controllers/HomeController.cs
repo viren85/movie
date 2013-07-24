@@ -1,5 +1,9 @@
-﻿using System;
+﻿using DataStoreLib.Storage;
+using DataStoreLib.Utils;
+using Microsoft.WindowsAzure;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -31,8 +35,22 @@ namespace MvcWebRole1.Controllers
 
         public ActionResult Search(string q)
         {
-            ViewBag.Message = "You searched for " + q;
+            var connectionString = CloudConfigurationManager.GetSetting("StorageTableConnectionString");
+            Trace.TraceInformation("Connection str read");
+            ConnectionSettingsSingleton.Instance.StorageConnectionString = connectionString;  
 
+            var movie = TableManager.Instance.GetMovieById(q);
+
+            @ViewBag.Movie = movie;
+
+            string resp = "nada";
+            if (movie != null)
+            {
+                resp = movie.Name;
+            }
+
+            ViewBag.Message = "You searched for " + q + "and the response you got was: " + resp;
+            
             return View();
         }
     }
