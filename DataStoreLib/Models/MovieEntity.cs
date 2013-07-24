@@ -9,7 +9,7 @@ namespace DataStoreLib.Models
     public class MovieEntity : TableEntity
     {
 #region table members
-        private static readonly string PARTITION_KEY = "CloudMovie";
+        public static readonly string PARTITION_KEY = "CloudMovie";
 
         public string MovieId {get; set;}
         public string Name {get; set;}
@@ -21,6 +21,12 @@ namespace DataStoreLib.Models
         public string AggregateRating { get; set; }
         public bool HotOrNot { get; set; }
 #endregion
+
+        public MovieEntity()
+            : base(PARTITION_KEY, "")
+        {
+            
+        }
 
         protected MovieEntity(string rowKey)
             : base(PARTITION_KEY, rowKey)
