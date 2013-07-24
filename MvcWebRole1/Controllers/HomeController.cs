@@ -28,5 +28,12 @@ namespace MvcWebRole1.Controllers
 
             return View();
         }
+
+        public ActionResult Search(string q)
+        {
+            ViewBag.Message = "You searched for " + q;
+
+            return View();
+        }
     }
 }
