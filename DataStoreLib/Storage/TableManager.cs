@@ -1,4 +1,5 @@
-﻿using DataStoreLib.Utils;
+﻿using DataStoreLib.Models;
+using DataStoreLib.Utils;
 using Microsoft.WindowsAzure.Storage;
 using System;
 using System.Collections.Concurrent;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DataStoreLib.Storage
 {
-    public class TableManager
+    public class TableManager : IStore
     {
         #region singleton implementation
 
@@ -39,8 +40,11 @@ namespace DataStoreLib.Storage
         #endregion
 
         protected IDictionary<string, Table> tableList = new ConcurrentDictionary<string, Table>();
+
+        protected static readonly string MovieTableName = "Movie";
+        protected static readonly string ReviewTableName = "Review";
  
-        public Table GetTable(string tableName)
+        protected Table GetTable(string tableName)
         {
             Table table = null;
             if (!tableList.ContainsKey(tableName))
@@ -70,6 +74,60 @@ namespace DataStoreLib.Storage
 
             var intTable = Table.CreateTable(table);
             return intTable;
+        }
+
+        public List<Models.MovieEntity> GetMoviesByid(List<string> ids)
+        {
+            var movieTable = GetTable(MovieTableName);
+            var list = movieTable.GetItemsById(ids);
+            var movieList = new List<MovieEntity>();
+
+            var rag = new RandomMovieDataGenerator();
+
+            foreach (var id in ids)
+            {
+                movieList.Add(rag.GetRandomMovieEntity(id));
+            }
+            return movieList;
+        }
+
+        public List<Models.ReviewEntity> GetReviewsById(List<string> ids)
+        {
+            var reviewTable = GetTable(ReviewTableName);
+            var list = reviewTable.GetItemsById(ids);
+            var reviewList = new List<ReviewEntity>();
+
+            var rag = new RandomMovieDataGenerator();
+
+            foreach (var id in ids)
+            {
+                reviewList.Add(rag.GetRandomReview(id));
+            }
+            return reviewList;
+        }
+
+        public List<bool> UpdateMoviesById(List<Models.MovieEntity> movies)
+        {
+            var movieList = new List<bool>();
+            var r = new Random();
+            foreach (var movie in movies)
+            {
+                movieList.Add(r.Next(2) == 1 ? true : false);
+            }
+
+            return movieList;
+        }
+
+        public List<bool> UpdateReviewsById(List<Models.ReviewEntity> reviews)
+        {
+            var movieList = new List<bool>();
+            var r = new Random();
+            foreach (var movie in reviews)
+            {
+                movieList.Add(r.Next(2) == 1 ? true : false);
+            }
+
+            return movieList;
         }
     }
 }

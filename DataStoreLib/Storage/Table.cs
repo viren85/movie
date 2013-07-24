@@ -9,7 +9,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace DataStoreLib.Storage
 {
-    public class Table : IStore
+    public class Table
     {
         protected CloudTable _table;
         protected Table(CloudTable table)
@@ -22,35 +22,14 @@ namespace DataStoreLib.Storage
             return new Table(table);
         }
 
-        public List<Models.MovieEntity> GetMoviesByid(List<string> ids)
+        public List<ITableEntity> GetItemsById(List<string> ids)
         {
-            Debug.Assert(_table != null);
-
-            foreach (var id in ids)
-            {
-                //var query =
-                //    new TableQuery<MovieEntity>().Where();
-               
-
-            }
-
-            
-            throw new NotImplementedException();
+            return new List<ITableEntity>();
         }
 
-        public List<Models.ReviewEntity> GetReviewsById(List<string> id)
+        public List<bool> UpdateItemsById(List<ITableEntity> movies)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<bool> UpdateMoviesById(List<Models.MovieEntity> movies)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<bool> UpdateReviewsById(List<Models.ReviewEntity> reviews)
-        {
-            throw new NotImplementedException();
+            return new List<bool>{true};
         }
     }
 }

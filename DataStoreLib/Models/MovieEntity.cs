@@ -28,7 +28,7 @@ namespace DataStoreLib.Models
             
         }
 
-        protected MovieEntity(string rowKey)
+        public MovieEntity(string rowKey)
             : base(PARTITION_KEY, rowKey)
         {
         }
