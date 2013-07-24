@@ -48,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\IStore.cs" />
     <Compile Include="Storage\TableContext.cs" />
+    <Compile Include="Utils\ConnectionSettingsSingleton.cs" />
     <Compile Include="Utils\utils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
