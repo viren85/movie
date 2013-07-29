@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace DataStoreLib.Models
 {
     public class ReviewEntity : TableEntity
     {
         #region table emembers
-        private static readonly string PARTITION_KEY = "CloudMovie";
+        public static readonly string PARTITION_KEY = "CloudMovie";
 
         public string ReviewId { get; set; }
         public string ReviewerName { get; set; }
@@ -17,7 +18,25 @@ namespace DataStoreLib.Models
         public int ReviewerRating { get; set; }
         public int SystemRating { get; set; }
 
+        public override void ReadEntity(IDictionary<string, EntityProperty> properties,
+                                        Microsoft.WindowsAzure.Storage.OperationContext operationContext)
+        {
+            base.ReadEntity(properties, operationContext);
+
+            ReviewId = ReadString(properties, "ReviewId");
+            ReviewerName = ReadString(properties, "ReviewerName");
+            Review = ReadString(properties, "Review");
+            ReviewerRating = ReadInt(properties, "ReviewerRating");
+            SystemRating = ReadInt(properties, "SystemRating");
+        }
+
         #endregion
+
+        public ReviewEntity()
+            : base(PARTITION_KEY, "")
+        {
+            
+        }
 
         public ReviewEntity(string rowKey)
             : base(PARTITION_KEY, rowKey)
@@ -47,5 +66,6 @@ namespace DataStoreLib.Models
 
             return reviewEntity;
         }
+
     }
 }

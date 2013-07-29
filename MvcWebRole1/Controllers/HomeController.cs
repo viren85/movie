@@ -1,4 +1,5 @@
-﻿using DataStoreLib.Storage;
+﻿using System.Text;
+using DataStoreLib.Storage;
 using DataStoreLib.Utils;
 using Microsoft.WindowsAzure;
 using System;
@@ -39,16 +40,66 @@ namespace MvcWebRole1.Controllers
             Trace.TraceInformation("Connection str read");
             ConnectionSettingsSingleton.Instance.StorageConnectionString = connectionString;  
 
+            if (string.IsNullOrWhiteSpace(q))
+            {
+                q = "testsample";
+            }
             var movie = TableManager.Instance.GetMovieById(q);
 
-            @ViewBag.Movie = movie;
-
-            string resp = "nada";
+            var resp = new StringBuilder();
             if (movie != null)
             {
-                resp = movie.Name;
-            }
+                resp.Append("Movie Name : ");
+                resp.Append(movie.Name);
 
+                var reviews = movie.GetReviewIds();
+                var reviewList = TableManager.Instance.GetReviewsById(reviews);
+                foreach (var reviewEntity in reviewList)
+                {
+                    resp.Append("\r\n With review -- ");
+                    resp.Append(reviewEntity.Value.Review);
+                }
+            }
+            else
+            {
+                resp.Append("No movie found");
+            }
+            
+            ViewBag.Message = "You searched for " + q + "and the response you got was: " + resp;
+            
+            return View();
+        }
+
+        public ActionResult Test()
+        {
+            var connectionString = CloudConfigurationManager.GetSetting("StorageTableConnectionString");
+            Trace.TraceInformation("Connection str read");
+            ConnectionSettingsSingleton.Instance.StorageConnectionString = connectionString;
+            
+            string q = "testsample";
+            
+            var movie = TableManager.Instance.GetMovieById(q);
+            @ViewBag.MovieEntity = movie;
+
+            var resp = new StringBuilder();
+            if (movie != null)
+            {
+                resp.Append("Movie Name : ");
+                resp.Append(movie.Name);
+
+                var reviews = movie.GetReviewIds();
+                var reviewList = TableManager.Instance.GetReviewsById(reviews);
+                foreach (var reviewEntity in reviewList)
+                {
+                    resp.Append("\r\n With review -- ");
+                    resp.Append(reviewEntity.Value.Review);
+                }
+            }
+            else
+            {
+                resp.Append("No movie found");
+            }
+            
             ViewBag.Message = "You searched for " + q + "and the response you got was: " + resp;
             
             return View();

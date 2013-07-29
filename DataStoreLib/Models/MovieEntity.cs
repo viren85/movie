@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace DataStoreLib.Models
 {
@@ -20,6 +21,22 @@ namespace DataStoreLib.Models
         public string ReviewIds { get; set; }
         public string AggregateRating { get; set; }
         public bool HotOrNot { get; set; }
+
+        public override void ReadEntity(IDictionary<string, EntityProperty> properties,
+                                       Microsoft.WindowsAzure.Storage.OperationContext operationContext)
+        {
+            base.ReadEntity(properties, operationContext);
+
+            MovieId = ReadString(properties, "MovieId");
+            Name = ReadString(properties, "Name");
+            Actors = ReadString(properties, "Actors");
+            Directors = ReadString(properties, "Directors");
+            Producers = ReadString(properties, "Producers");
+            MusicDirectors = ReadString(properties, "MusicDirectors");
+            ReviewIds = ReadString(properties, "ReviewIds");
+            AggregateRating = ReadString(properties, "AggregateRating");
+            HotOrNot = ReadBool(properties, "HotOrNot");
+        }
 #endregion
 
         public MovieEntity()
@@ -47,13 +64,13 @@ namespace DataStoreLib.Models
             HotOrNot = entity.HotOrNot;
         }
 
-        public static MovieEntity CreateMovieEntity(string name, 
-                                                    string actors, 
-                                                    string directors, 
-                                                    string producers, 
-                                                    string musicDirecotrs, 
-                                                    string reviewIds, 
-                                                    string aggregateRating, 
+        public static MovieEntity CreateMovieEntity(string name,
+                                                    string actors,
+                                                    string directors,
+                                                    string producers,
+                                                    string musicDirecotrs,
+                                                    string reviewIds,
+                                                    string aggregateRating,
                                                     bool hotOrNot)
         {
             var movieId = Guid.NewGuid().ToString();

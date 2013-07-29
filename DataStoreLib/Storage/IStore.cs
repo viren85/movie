@@ -10,8 +10,8 @@ namespace DataStoreLib.Storage
 {
     public interface IStore
     {
-        List<MovieEntity> GetMoviesByid(List<string> id);
-        List<ReviewEntity> GetReviewsById(List<string> id);
+        IDictionary<string, MovieEntity> GetMoviesByid(List<string> id);
+        IDictionary<string, ReviewEntity> GetReviewsById(List<string> id);
 
         List<bool> UpdateMoviesById(List<MovieEntity> movies);
         List<bool> UpdateReviewsById(List<ReviewEntity> reviews);
@@ -26,7 +26,7 @@ namespace DataStoreLib.Storage
             var retList = store.GetMoviesByid(list);
 
             Debug.Assert(retList.Count == 1);
-            return retList[0];
+            return retList[retList.Keys.FirstOrDefault()];
         }
 
         public static ReviewEntity GetReviewById(this IStore store, string id)
@@ -36,7 +36,7 @@ namespace DataStoreLib.Storage
             var retList = store.GetReviewsById(list);
 
             Debug.Assert(retList.Count == 1);
-            return retList[0];
+            return retList[retList.Keys.FirstOrDefault()];
         }
 
         public static bool UpdateMovieById(this IStore store, MovieEntity movie)

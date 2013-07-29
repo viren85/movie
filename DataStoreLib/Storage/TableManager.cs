@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace DataStoreLib.Storage
 {
@@ -39,12 +40,19 @@ namespace DataStoreLib.Storage
 
         #endregion
 
-        protected IDictionary<string, Table> tableList = new ConcurrentDictionary<string, Table>();
+        internal IDictionary<string, Table> tableList = new ConcurrentDictionary<string, Table>();
 
         protected static readonly string MovieTableName = "Movie";
         protected static readonly string ReviewTableName = "Review";
- 
-        protected Table GetTable(string tableName)
+
+        internal IDictionary<string, Func<CloudTable, Table>> tableDict =
+            new Dictionary<string, Func<CloudTable, Table>>()
+                {
+                    {MovieTableName, MovieTable.CreateTable},
+                    {ReviewTableName, ReviewTable.CreateTable}
+                }; 
+
+        internal Table GetTable(string tableName)
         {
             Table table = null;
             if (!tableList.ContainsKey(tableName))
@@ -63,7 +71,7 @@ namespace DataStoreLib.Storage
             return table;
         }
 
-        private Table CreateTableIfNotExist(string tableName)
+        internal Table CreateTableIfNotExist(string tableName)
         {
             Debug.Assert(!string.IsNullOrWhiteSpace(ConnectionSettingsSingleton.Instance.StorageConnectionString));
             var account = CloudStorageAccount.Parse(ConnectionSettingsSingleton.Instance.StorageConnectionString);
@@ -72,38 +80,19 @@ namespace DataStoreLib.Storage
             var table = cloudTableClient.GetTableReference(tableName);
             table.CreateIfNotExists();
 
-            var intTable = Table.CreateTable(table);
-            return intTable;
+            return tableDict[tableName](table);
         }
 
-        public List<Models.MovieEntity> GetMoviesByid(List<string> ids)
+        public IDictionary<string, MovieEntity> GetMoviesByid(List<string> ids)
         {
             var movieTable = GetTable(MovieTableName);
-            var list = movieTable.GetItemsById(ids);
-            var movieList = new List<MovieEntity>();
-
-            var rag = new RandomMovieDataGenerator();
-
-            foreach (var id in ids)
-            {
-                movieList.Add(rag.GetRandomMovieEntity(id));
-            }
-            return movieList;
+            return movieTable.GetItemsById<MovieEntity>(ids);
         }
 
-        public List<Models.ReviewEntity> GetReviewsById(List<string> ids)
+        public IDictionary<string, Models.ReviewEntity> GetReviewsById(List<string> ids)
         {
             var reviewTable = GetTable(ReviewTableName);
-            var list = reviewTable.GetItemsById(ids);
-            var reviewList = new List<ReviewEntity>();
-
-            var rag = new RandomMovieDataGenerator();
-
-            foreach (var id in ids)
-            {
-                reviewList.Add(rag.GetRandomReview(id));
-            }
-            return reviewList;
+            return reviewTable.GetItemsById<ReviewEntity>(ids);
         }
 
         public List<bool> UpdateMoviesById(List<Models.MovieEntity> movies)
