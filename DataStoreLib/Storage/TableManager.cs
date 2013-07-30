@@ -96,28 +96,36 @@ namespace DataStoreLib.Storage
             return reviewTable.GetItemsById<ReviewEntity>(ids);
         }
 
-        public List<bool> UpdateMoviesById(List<Models.MovieEntity> movies)
+        public IDictionary<MovieEntity, bool> UpdateMoviesById(List<Models.MovieEntity> movies)
         {
-            var movieList = new List<bool>();
-            var r = new Random();
-            foreach (var movie in movies)
-            {
-                movieList.Add(r.Next(2) == 1 ? true : false);
-            }
+            var movieTable = GetTable(MovieTableName);
+            Debug.Assert(movieTable != null);
 
-            return movieList;
+            var movieList = new List<DataStoreLib.Models.TableEntity>(movies).ConvertAll(x => (ITableEntity) x);
+            var returnOp = movieTable.UpdateItemsById(movieList);
+
+            var returnTranslateOp = new Dictionary<MovieEntity, bool>();
+            foreach (var b in returnOp.Keys)
+            {
+                returnTranslateOp.Add(b as MovieEntity, returnOp[b]);
+            }
+            return returnTranslateOp;
         }
 
-        public List<bool> UpdateReviewsById(List<Models.ReviewEntity> reviews)
+        public IDictionary<ReviewEntity, bool> UpdateReviewsById(List<Models.ReviewEntity> reviews)
         {
-            var movieList = new List<bool>();
-            var r = new Random();
-            foreach (var movie in reviews)
-            {
-                movieList.Add(r.Next(2) == 1 ? true : false);
-            }
+            var reviewTable = GetTable(ReviewTableName);
+            Debug.Assert(reviewTable != null);
 
-            return movieList;
+            var reviewList = new List<DataStoreLib.Models.TableEntity>(reviews).ConvertAll(x => (ITableEntity)x);
+            var returnOp = reviewTable.UpdateItemsById(reviewList);
+
+            var returnTranslateOp = new Dictionary<ReviewEntity, bool>();
+            foreach (var b in returnOp.Keys)
+            {
+                returnTranslateOp.Add(b as ReviewEntity, returnOp[b]);
+            }
+            return returnTranslateOp;
         }
     }
 }

@@ -37,6 +37,23 @@ namespace DataStoreLib.Models
             AggregateRating = ReadString(properties, "AggregateRating");
             HotOrNot = ReadBool(properties, "HotOrNot");
         }
+
+        public override IDictionary<string, EntityProperty> WriteEntity(Microsoft.WindowsAzure.Storage.OperationContext operationContext)
+        {
+            var dict = MergeDicts(base.WriteEntity(operationContext));
+            
+            WriteString(dict, "MovieId", MovieId);
+            WriteString(dict, "Name", Name);
+            WriteString(dict, "Actors", Actors);
+            WriteString(dict, "Directors", Directors);
+            WriteString(dict, "Producers", Producers);
+            WriteString(dict, "MusicDirectors", MusicDirectors);
+            WriteString(dict, "ReviewIds", ReviewIds);
+            WriteString(dict, "AggregateRating", AggregateRating);
+            WriteBool(dict, "HotOrNot", HotOrNot);
+
+            return dict;
+        }
 #endregion
 
         public MovieEntity()

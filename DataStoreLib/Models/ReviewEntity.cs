@@ -30,6 +30,19 @@ namespace DataStoreLib.Models
             SystemRating = ReadInt(properties, "SystemRating");
         }
 
+        public override IDictionary<string, EntityProperty> WriteEntity(Microsoft.WindowsAzure.Storage.OperationContext operationContext)
+        {
+            var dict = MergeDicts(base.WriteEntity(operationContext));
+
+            WriteString(dict, "ReviewId", ReviewId);
+            WriteString(dict, "ReviewerName", ReviewerName);
+            WriteString(dict, "Review", Review);
+            WriteInt(dict, "ReviewerRating", ReviewerRating);
+            WriteInt(dict, "SystemRating", SystemRating);
+
+            return dict;
+        }
+
         #endregion
 
         public ReviewEntity()

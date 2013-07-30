@@ -13,8 +13,8 @@ namespace DataStoreLib.Storage
         IDictionary<string, MovieEntity> GetMoviesByid(List<string> id);
         IDictionary<string, ReviewEntity> GetReviewsById(List<string> id);
 
-        List<bool> UpdateMoviesById(List<MovieEntity> movies);
-        List<bool> UpdateReviewsById(List<ReviewEntity> reviews);
+        IDictionary<MovieEntity, bool> UpdateMoviesById(List<MovieEntity> movies);
+        IDictionary<ReviewEntity, bool> UpdateReviewsById(List<ReviewEntity> reviews);
     }
 
     public static class IStoreHelpers
@@ -46,7 +46,7 @@ namespace DataStoreLib.Storage
             var retList = store.UpdateMoviesById(list);
 
             Debug.Assert(retList.Count == 1);
-            return retList[0];
+            return retList[retList.Keys.FirstOrDefault()];
         }
 
         public static bool UpdateReviewById(this IStore store, ReviewEntity review)
@@ -56,7 +56,7 @@ namespace DataStoreLib.Storage
             var retList = store.UpdateReviewsById(list);
 
             Debug.Assert(retList.Count == 1);
-            return retList[0];
+            return retList[retList.Keys.FirstOrDefault()];
         }
     }
 }

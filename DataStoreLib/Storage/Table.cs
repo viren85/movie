@@ -49,9 +49,32 @@ namespace DataStoreLib.Storage
             return returnDict;
         }
 
-        public List<bool> UpdateItemsById(List<ITableEntity> movies)
+        public IDictionary<ITableEntity, bool> UpdateItemsById(List<ITableEntity> items)
         {
-            return new List<bool>{true};
+            var returnDict = new Dictionary<ITableEntity, bool>();
+
+            var batchOp = new TableBatchOperation();
+            foreach (var item in items)
+            {
+                batchOp.Insert(item);
+            }
+
+            var tableResult = _table.ExecuteBatch(batchOp);
+
+            foreach (var result in tableResult)
+            {
+                Debug.Assert((result.Result as ITableEntity) != null);
+                if (result.HttpStatusCode >= 200 || result.HttpStatusCode < 300)
+                {
+                    returnDict[result.Result as ITableEntity] = true;
+                }
+                else
+                {
+                    returnDict[result.Result as ITableEntity] = false;
+                }
+            }
+
+            return returnDict;
         }
 
         protected abstract string GetParitionKey();

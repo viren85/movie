@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DataStoreLib.Models;
 
 namespace MvcWebRole1.Controllers
 {
@@ -103,6 +104,46 @@ namespace MvcWebRole1.Controllers
             ViewBag.Message = "You searched for " + q + "and the response you got was: " + resp;
             
             return View();
+        }
+
+        public string TestUpdate()
+        {
+            var connectionString = CloudConfigurationManager.GetSetting("StorageTableConnectionString");
+            Trace.TraceInformation("Connection str read");
+            ConnectionSettingsSingleton.Instance.StorageConnectionString = connectionString;
+
+            MovieEntity entity = new MovieEntity();
+            var rand = new Random((int)DateTimeOffset.UtcNow.Ticks);
+
+            entity.RowKey = entity.MovieId = Guid.NewGuid().ToString();
+            entity.ReviewIds = string.Format("{0},{1}", Math.Abs(rand.Next()), Math.Abs(rand.Next()));
+            entity.AggregateRating = Math.Abs(rand.Next(10)).ToString();
+            entity.Directors = string.Format("Gabbar_{0}", rand.Next());
+            entity.HotOrNot = (Math.Abs(rand.Next())%2) == 1 ? true : false;
+            entity.MusicDirectors = string.Format("Rahman_{0}", Math.Abs(rand.Next()));
+            entity.Name = string.Format("aashique {0}", rand.Next());
+            entity.Producers = string.Format("sippy_{0}", rand.Next());
+            entity.Actors = string.Format("sahruuk_{0}", rand.Next());
+
+            var reviewIds = entity.GetReviewIds();
+            var reviewList = new List<ReviewEntity>();
+            foreach (var reviewId in reviewIds)
+            {
+                var reviewEntity = new ReviewEntity();
+                reviewEntity.ReviewId = reviewEntity.RowKey = reviewId;
+                reviewEntity.Review = string.Format("This is review number {0}", reviewId);
+                reviewEntity.ReviewerName = string.Format("khan_{0}", rand.Next());
+                reviewEntity.ReviewerRating = rand.Next(10);
+                reviewEntity.SystemRating = rand.Next(10);
+
+                reviewList.Add(reviewEntity);
+            }
+
+            TableManager.Instance.UpdateMovieById(entity);
+            TableManager.Instance.UpdateReviewsById(reviewList);
+
+            return string.Format("Created movie id {0}", entity.MovieId);
+
         }
     }
 }
