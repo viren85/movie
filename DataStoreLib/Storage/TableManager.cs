@@ -66,6 +66,7 @@ namespace DataStoreLib.Storage
                 tableList.Add(tableName, table);
                 Trace.TraceInformation("Added {0} to the store", tableName);
             }
+            table = tableList[tableName];
             
             Debug.Assert(table != null);
             return table;
