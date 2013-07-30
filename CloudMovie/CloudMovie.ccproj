@@ -37,6 +37,14 @@
     <ServiceConfiguration Include="ServiceConfiguration.CloudStaging.cscfg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IndexerRole\IndexerRole.csproj">
+      <Name>IndexerRole</Name>
+      <Project>{545c113c-2c2b-47ef-b187-ca193f368387}</Project>
+      <Private>True</Private>
+      <RoleType>Worker</RoleType>
+      <RoleName>IndexerRole</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
     <ProjectReference Include="..\MvcWebRole1\MvcWebRole1.csproj">
       <Name>MvcWebRole1</Name>
       <Project>{1f996680-e16a-4bb3-bd9b-561f45f348ca}</Project>
@@ -55,11 +63,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="IndexerRoleContent\" />
     <Folder Include="MvcWebRole1Content\" />
     <Folder Include="Profiles" />
     <Folder Include="WorkerRole1Content\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="IndexerRoleContent\diagnostics.wadcfg">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="MvcWebRole1Content\diagnostics.wadcfg">
       <SubType>Content</SubType>
     </Content>

@@ -16,7 +16,7 @@
       <Import moduleName="RemoteAccess" />
     </Imports>
     <ConfigurationSettings>
-      <Setting name="StorageTableConnectionString"/>
+      <Setting name="StorageTableConnectionString" />
     </ConfigurationSettings>
   </WebRole>
   <WorkerRole name="WorkerRole1" vmsize="Small">
@@ -24,6 +24,12 @@
       <Import moduleName="Diagnostics" />
       <Import moduleName="RemoteAccess" />
       <Import moduleName="RemoteForwarder" />
+    </Imports>
+  </WorkerRole>
+  <WorkerRole name="IndexerRole" vmsize="Small">
+    <Imports>
+      <Import moduleName="Diagnostics" />
+      <Import moduleName="RemoteAccess" />
     </Imports>
   </WorkerRole>
 </ServiceDefinition>
