@@ -19,7 +19,7 @@ namespace IndexerRole
             // This is a sample worker implementation. Replace with your logic.
             Trace.TraceInformation("IndexerRole entry point called", "Information");
 
-            while (true)
+            while (false)
             {
                 //Run once a day
                 Trace.TraceInformation("Working", "Information");

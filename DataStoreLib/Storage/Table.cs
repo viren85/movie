@@ -10,7 +10,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace DataStoreLib.Storage
 {
-    internal abstract class Table
+    public abstract class Table
     {
         protected CloudTable _table;
         protected Table(CloudTable table)
@@ -18,15 +18,20 @@ namespace DataStoreLib.Storage
             _table = table;
         }
 
-        public IDictionary<string, TEntity> GetItemsById<TEntity>(List<string> ids) where TEntity : DataStoreLib.Models.TableEntity
+        public virtual IDictionary<string, TEntity> GetItemsById<TEntity>(List<string> ids, string partitionKey = "") where TEntity : DataStoreLib.Models.TableEntity
         {
             Debug.Assert(ids.Count != 0);
             Debug.Assert(_table != null);
 
+            if (string.IsNullOrWhiteSpace(partitionKey))
+            {
+                partitionKey = GetParitionKey();
+            }
+
             var operationList = new Dictionary<string, TableResult>();
             foreach (var id in ids)
             {
-                operationList[id] = _table.Execute(TableOperation.Retrieve<TEntity>(GetParitionKey(), id));
+                operationList[id] = _table.Execute(TableOperation.Retrieve<TEntity>(partitionKey, id));
             }
             
             var returnDict = new Dictionary<string, TEntity>();
@@ -49,9 +54,14 @@ namespace DataStoreLib.Storage
             return returnDict;
         }
 
-        public IDictionary<ITableEntity, bool> UpdateItemsById(List<ITableEntity> items)
+        public virtual IDictionary<ITableEntity, bool> UpdateItemsById(List<ITableEntity> items, string partitionKey = "")
         {
             var returnDict = new Dictionary<ITableEntity, bool>();
+
+            if (string.IsNullOrWhiteSpace(partitionKey))
+            {
+                partitionKey = GetParitionKey();
+            }
 
             var batchOp = new TableBatchOperation();
             foreach (var item in items)

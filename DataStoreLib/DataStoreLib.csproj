@@ -46,11 +46,14 @@
     <Compile Include="Models\ITableEntity.cs" />
     <Compile Include="Models\MovieEntity.cs" />
     <Compile Include="Models\ReviewEntity.cs" />
+    <Compile Include="Models\ToBeIndexedEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\IStore.cs" />
     <Compile Include="Storage\RandomDataGenerator.cs" />
     <Compile Include="Storage\Table.cs" />
     <Compile Include="Storage\TableManager.cs" />
+    <Compile Include="Storage\TableStore.cs" />
+    <Compile Include="Storage\ToBeIndexedTable.cs" />
     <Compile Include="Utils\ConnectionSettingsSingleton.cs" />
     <Compile Include="Utils\utils.cs" />
   </ItemGroup>

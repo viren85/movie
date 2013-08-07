@@ -45,7 +45,8 @@ namespace MvcWebRole1.Controllers
             {
                 q = "testsample";
             }
-            var movie = TableManager.Instance.GetMovieById(q);
+            var tableMgr = new TableManager();
+            var movie = tableMgr.GetMovieById(q);
 
             var resp = new StringBuilder();
             if (movie != null)
@@ -54,7 +55,7 @@ namespace MvcWebRole1.Controllers
                 resp.Append(movie.Name);
 
                 var reviews = movie.GetReviewIds();
-                var reviewList = TableManager.Instance.GetReviewsById(reviews);
+                var reviewList = tableMgr.GetReviewsById(reviews);
                 foreach (var reviewEntity in reviewList)
                 {
                     resp.Append("\r\n With review -- ");
@@ -78,8 +79,9 @@ namespace MvcWebRole1.Controllers
             ConnectionSettingsSingleton.Instance.StorageConnectionString = connectionString;
             
             string q = "testsample";
+            var tableMgr = new TableManager();
             
-            var movie = TableManager.Instance.GetMovieById(q);
+            var movie = tableMgr.GetMovieById(q);
             @ViewBag.MovieEntity = movie;
 
             var resp = new StringBuilder();
@@ -89,7 +91,7 @@ namespace MvcWebRole1.Controllers
                 resp.Append(movie.Name);
 
                 var reviews = movie.GetReviewIds();
-                var reviewList = TableManager.Instance.GetReviewsById(reviews);
+                var reviewList = tableMgr.GetReviewsById(reviews);
                 foreach (var reviewEntity in reviewList)
                 {
                     resp.Append("\r\n With review -- ");
@@ -106,11 +108,16 @@ namespace MvcWebRole1.Controllers
             return View();
         }
 
-        public string TestUpdate()
+        private void SetConnectionString()
         {
             var connectionString = CloudConfigurationManager.GetSetting("StorageTableConnectionString");
             Trace.TraceInformation("Connection str read");
             ConnectionSettingsSingleton.Instance.StorageConnectionString = connectionString;
+        }
+
+        public string TestUpdate()
+        {
+            SetConnectionString();
 
             MovieEntity entity = new MovieEntity();
             var rand = new Random((int)DateTimeOffset.UtcNow.Ticks);
@@ -139,11 +146,158 @@ namespace MvcWebRole1.Controllers
                 reviewList.Add(reviewEntity);
             }
 
-            TableManager.Instance.UpdateMovieById(entity);
-            TableManager.Instance.UpdateReviewsById(reviewList);
+            var tableMgr = new TableManager();
+            tableMgr.UpdateMovieById(entity);
+            tableMgr.UpdateReviewsById(reviewList);
 
             return string.Format("Created movie id {0}", entity.MovieId);
 
+        }
+
+        public string TestTobeIndexedTableAdd()
+        {
+            try
+            {
+                SetConnectionString();
+
+                var movieTable = TableStore.Instance.GetTable(TableStore.ToBeIndexedTableName) as ToBeIndexedTable;
+                var list = new List<string>();
+
+                for (int i = 0; i < 5; i++)
+                {
+                    list.Add(Guid.NewGuid().ToString());
+                }
+
+                var moviesAdded = movieTable.AddMovieToBeIndexed(list);
+
+                list = new List<string>();
+
+                for (int i = 0; i < 5; i++)
+                {
+                    list.Add(Guid.NewGuid().ToString());
+                }
+
+                var reviewsAdded = movieTable.AddReviewToBeIndexed(list);
+
+                var str = new StringBuilder();
+
+                str.Append("movies\r\n");
+                foreach (var b in moviesAdded)
+                {
+                    str.Append((b.Key as ToBeIndexedEntity).EntityId);
+                    str.Append(" : ");
+                    str.Append(b.Value);
+                    str.Append("\r\n");
+                }
+
+                str.Append("reviews\r\n");
+                foreach (var b in reviewsAdded)
+                {
+                    str.Append((b.Key as ToBeIndexedEntity).EntityId);
+                    str.Append(" : ");
+                    str.Append(b.Value);
+                    str.Append("\r\n");
+                }
+
+                return str.ToString();
+
+            }
+            catch (Exception err)
+            {
+                return err.Message;
+            }
+        }
+
+        public string TestToBeIndexedTableDelete()
+        {
+            try
+            {
+                SetConnectionString();
+
+                var movieTable = TableStore.Instance.GetTable(TableStore.ToBeIndexedTableName) as ToBeIndexedTable;
+                var list = new List<string>();
+
+                for (int i = 0; i < 5; i++)
+                {
+                    list.Add(Guid.NewGuid().ToString());
+                }
+
+                var moviesAdded = movieTable.AddMovieToBeIndexed(list);
+                var moviesRemoved = movieTable.IndexedMovies(list);
+
+                list = new List<string>();
+
+                for (int i = 0; i < 5; i++)
+                {
+                    list.Add(Guid.NewGuid().ToString());
+                }
+
+                var reviewsAdded = movieTable.AddReviewToBeIndexed(list);
+                var reviewsRemoved = movieTable.IndexedReviews(list);
+
+                var str = new StringBuilder();
+
+                str.Append("movies\r\n");
+                foreach (var b in moviesAdded)
+                {
+                    str.Append((b.Key as ToBeIndexedEntity).EntityId);
+                    str.Append(" : ");
+                    str.Append(b.Value);
+                    str.Append("\r\n");
+                }
+
+                str.Append("reviews\r\n");
+                foreach (var b in reviewsAdded)
+                {
+                    str.Append((b.Key as ToBeIndexedEntity).EntityId);
+                    str.Append(" : ");
+                    str.Append(b.Value);
+                    str.Append("\r\n");
+                }
+
+                str.Append("movies\r\n");
+                foreach (var b in moviesRemoved)
+                {
+                    str.Append(b.Key);
+                    str.Append(" : ");
+                    str.Append(b.Value);
+                    str.Append("\r\n");
+                }
+
+                str.Append("reviews\r\n");
+                foreach (var b in reviewsRemoved)
+                {
+                    str.Append(b.Key);
+                    str.Append(" : ");
+                    str.Append(b.Value);
+                    str.Append("\r\n");
+                }
+
+
+
+                return str.ToString();
+
+            }
+            catch (Exception err)
+            {
+                return err.Message;
+            }
+        }
+
+        public string TestToBeIndexedTableGetAll()
+        {
+            try
+            {
+                SetConnectionString();
+
+                var movies = TableStore.Instance.GetTable(TableStore.ToBeIndexedTableName) as ToBeIndexedTable;
+                var movieList = movies.GetMoviesTobeIndexed();
+                return string.Join(",", movieList.ToArray());
+            }
+            catch (Exception err)
+            {
+                return err.Message;
+            }
         }
     }
 }
