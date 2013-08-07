@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Lucene.Net.Search;
 using SearchLib.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,33 +11,26 @@ namespace SearchLib.Search
 {
     public class IndexQuery : ISearch
     {
+        protected string _location;
+        protected IndexSearcher _searcher;
 
-        #region singleton
-
-        private static IndexQuery _indexQuery;
-        private static object lockObj = new object();
-
-        private IndexQuery()
+        public static IndexQuery GetIndexReader(string location)
         {
+            var indexer = new IndexQuery(location);
+            indexer.LoadIndex();
+
+            return indexer;
         }
 
-        public ISearch Instance
+        protected IndexQuery(string indexLocation)
         {
-            get
-            {
-                lock (lockObj)
-                {
-                    if (_indexQuery == null)
-                    {
-                        _indexQuery = new IndexQuery();
-                    }
-
-                    return _indexQuery;
-                }
-            }
+            _location = indexLocation;
         }
 
-        #endregion
+        private void LoadIndex()
+        {
+            
+        }
 
         public void GetAllMoviesWith(string textSearch, out List<string> movies, out List<string> reviews, IDictionary<string, string> filters = null)
         {
@@ -45,7 +39,7 @@ namespace SearchLib.Search
 
             try
             {
-
+                
             }
             catch (Exception err)
             {
