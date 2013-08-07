@@ -31,5 +31,8 @@
       <Import moduleName="Diagnostics" />
       <Import moduleName="RemoteAccess" />
     </Imports>
+    <ConfigurationSettings>
+      <Setting name="StorageTableConnectionString" />
+    </ConfigurationSettings>
   </WorkerRole>
 </ServiceDefinition>

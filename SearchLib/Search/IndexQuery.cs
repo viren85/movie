@@ -1,4 +1,5 @@
-﻿using SearchLib.Interfaces;
+﻿using System.Diagnostics;
+using SearchLib.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,9 +38,23 @@ namespace SearchLib.Search
 
         #endregion
 
-        public List<string> GetAllMoviesWith(string textSearch, IDictionary<string, string> filters = null)
+        public void GetAllMoviesWith(string textSearch, out List<string> movies, out List<string> reviews, IDictionary<string, string> filters = null)
         {
-            throw new NotImplementedException();
+            reviews  = new List<string>();
+            movies = new List<string>();
+
+            try
+            {
+
+            }
+            catch (Exception err)
+            {
+               Trace.TraceError("Get all movies failed with exception {0}", err);
+                throw;
+            }
+
         }
+
+         
     }
 }

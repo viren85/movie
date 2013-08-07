@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
 using SearchLib;
+using SearchLib.Builder;
 
 namespace IndexerRole
 {
@@ -25,10 +26,6 @@ namespace IndexerRole
                 Trace.TraceInformation("Working", "Information");
 
                 Trace.TraceInformation("Reindexing all entities");
-
-                var builder = IndexBuilder.CreateIndexer();
-                builder.IndexAllMovies();
-                builder.IndexAllReviews();
 
                 int timeout = 24*60*60*1000;
                 Thread.Sleep(timeout);

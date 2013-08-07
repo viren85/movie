@@ -30,6 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lucene.Net">
+      <HintPath>..\NET40\binaries\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,13 +44,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IndexBuilder.cs" />
+    <Compile Include="Builder\IndexBuilder.cs" />
+    <Compile Include="Constants\Constants.cs" />
     <Compile Include="Interfaces\IIndexer.cs" />
     <Compile Include="Interfaces\ISearch.cs" />
+    <Compile Include="Network\IndexSaveRestore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Search\IndexQuery.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DataStoreLib\DataStoreLib.csproj">
+      <Project>{85319d65-37e0-49b0-bbb8-6143cda747c6}</Project>
+      <Name>DataStoreLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

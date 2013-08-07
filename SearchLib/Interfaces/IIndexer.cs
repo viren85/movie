@@ -8,10 +8,7 @@ namespace SearchLib.Interfaces
 {
     public interface IIndexer
     {
-        void IndexAllMovies();
-        void IndexAllReviews();
-
-        void IndexSelectedMovies(IList<string> movieIds);
-        void IndexSelectedReviews(IList<string> reviewIds);
+        void IndexSelectedMovies(List<string> movieIds);
+        void IndexSelectedReviews(List<string> reviewIds);
     }
 }

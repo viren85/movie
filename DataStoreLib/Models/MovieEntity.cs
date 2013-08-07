@@ -21,6 +21,7 @@ namespace DataStoreLib.Models
         public string ReviewIds { get; set; }
         public string AggregateRating { get; set; }
         public bool HotOrNot { get; set; }
+        public string Synopsis { get; set; }
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties,
                                        Microsoft.WindowsAzure.Storage.OperationContext operationContext)
@@ -36,6 +37,7 @@ namespace DataStoreLib.Models
             ReviewIds = ReadString(properties, "ReviewIds");
             AggregateRating = ReadString(properties, "AggregateRating");
             HotOrNot = ReadBool(properties, "HotOrNot");
+            Synopsis = ReadString(properties, "Synopsis");
         }
 
         public override IDictionary<string, EntityProperty> WriteEntity(Microsoft.WindowsAzure.Storage.OperationContext operationContext)
@@ -51,6 +53,7 @@ namespace DataStoreLib.Models
             WriteString(dict, "ReviewIds", ReviewIds);
             WriteString(dict, "AggregateRating", AggregateRating);
             WriteBool(dict, "HotOrNot", HotOrNot);
+            WriteString(dict, "Synopsis", Synopsis);
 
             return dict;
         }
