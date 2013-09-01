@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -22,10 +23,10 @@ namespace IndexerRole
 
             while (false)
             {
-                //Run once a day
-                Trace.TraceInformation("Working", "Information");
-
-                Trace.TraceInformation("Reindexing all entities");
+                //var movieTable = TableStore.Instance.GetTable(TableStore.ToBeIndexedTableName) as ToBeIndexedTable;
+                ////Run once a day
+                //var indexbuilder = IndexBuilder.CreateIndexer(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "index"));
+                
 
                 int timeout = 24*60*60*1000;
                 Thread.Sleep(timeout);

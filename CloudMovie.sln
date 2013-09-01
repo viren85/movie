@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "CloudMovie", "CloudMovie\CloudMovie.ccproj", "{B052414F-2F75-4768-9BD9-63D3D83E411C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcWebRole1", "MvcWebRole1\MvcWebRole1.csproj", "{1F996680-E16A-4BB3-BD9B-561F45F348CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiRole", "MvcWebRole1\WebApiRole.csproj", "{1F996680-E16A-4BB3-BD9B-561F45F348CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRole1", "WorkerRole1\WorkerRole1.csproj", "{85E6FF1B-089D-41FE-B606-4DA386C55EFC}"
 EndProject
@@ -17,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchLib", "SearchLib\SearchLib.csproj", "{26F374D4-322F-404A-911E-86F8476BD740}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndexerRole", "IndexerRole\IndexerRole.csproj", "{545C113C-2C2B-47EF-B187-CA193F368387}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditorialRole", "MvcWebRole2\EditorialRole.csproj", "{43457783-9306-4EBE-9100-C90890C48236}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{545C113C-2C2B-47EF-B187-CA193F368387}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{545C113C-2C2B-47EF-B187-CA193F368387}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{545C113C-2C2B-47EF-B187-CA193F368387}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43457783-9306-4EBE-9100-C90890C48236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43457783-9306-4EBE-9100-C90890C48236}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43457783-9306-4EBE-9100-C90890C48236}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43457783-9306-4EBE-9100-C90890C48236}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

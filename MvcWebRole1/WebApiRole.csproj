@@ -334,6 +334,10 @@
       <Project>{85319d65-37e0-49b0-bbb8-6143cda747c6}</Project>
       <Name>DataStoreLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SearchLib\SearchLib.csproj">
+      <Project>{26f374d4-322f-404a-911e-86f8476bd740}</Project>
+      <Name>SearchLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

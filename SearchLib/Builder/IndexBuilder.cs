@@ -53,7 +53,18 @@ namespace SearchLib.Builder
             _dirLocation = dir;
         }
 
-        public void IndexSelectedMovies(List<string> movieIds)
+        private List<string> GenerateListFromSet(ISet<string> set)
+        {
+            var list = new List<string>();
+            foreach (var item in set)
+            {
+                list.Add(item);
+            }
+
+            return list;
+        }
+
+        public void IndexSelectedMovies(ISet<string> movieIds)
         {
             StandardAnalyzer analyzer = null;
             IndexWriter writer = null;
@@ -65,7 +76,7 @@ namespace SearchLib.Builder
 
                 var tableManager = new TableManager();
 
-                var movieList = tableManager.GetMoviesByid(movieIds);
+                var movieList = tableManager.GetMoviesByid(GenerateListFromSet(movieIds));
 
                 foreach (var id in movieIds)
                 {
@@ -83,17 +94,19 @@ namespace SearchLib.Builder
                         var doc = new Document();
                         doc.Add(new Field(Constants.Constants.Field_Id, movieEntity.MovieId, Field.Store.YES,
                                           Field.Index.NOT_ANALYZED));
+                        doc.Add(new Field(Constants.Constants.Field_EntityType, Constants.Constants.Field_EntityType_Movie, Field.Store.YES,
+                                          Field.Index.NOT_ANALYZED));
                         doc.Add(new Field(Constants.Constants.Field_Actors, movieEntity.Actors, Field.Store.NO,
                                           Field.Index.ANALYZED));
-                        doc.Add(new Field(Constants.Constants.Field_Directors, movieEntity.Directors, Field.Store.NO,
+                        doc.Add(new Field(Constants.Constants.Field_Directors, movieEntity.Directors, Field.Store.YES,
                                           Field.Index.ANALYZED));
                         doc.Add(new Field(Constants.Constants.Field_MusicDirectors, movieEntity.MusicDirectors,
-                                          Field.Store.NO, Field.Index.ANALYZED));
-                        doc.Add(new Field(Constants.Constants.Field_Name, movieEntity.Name, Field.Store.NO,
+                                          Field.Store.YES, Field.Index.ANALYZED));
+                        doc.Add(new Field(Constants.Constants.Field_Name, movieEntity.Name, Field.Store.YES,
                                           Field.Index.ANALYZED));
-                        doc.Add(new Field(Constants.Constants.Field_Producers, movieEntity.Producers, Field.Store.NO,
+                        doc.Add(new Field(Constants.Constants.Field_Producers, movieEntity.Producers, Field.Store.YES,
                                           Field.Index.ANALYZED));
-                        doc.Add(new Field(Constants.Constants.Field_MovieSynopsis, movieEntity.Synopsis, Field.Store.NO,
+                        doc.Add(new Field(Constants.Constants.Field_MovieSynopsis, movieEntity.Synopsis, Field.Store.YES,
                                           Field.Index.ANALYZED));
 
                         writer.AddDocument(doc);
@@ -119,7 +132,7 @@ namespace SearchLib.Builder
             }
         }
 
-        public void IndexSelectedReviews(List<string> reviewIds)
+        public void IndexSelectedReviews(ISet<string> reviewIds)
         {
             StandardAnalyzer analyzer = null;
             IndexWriter writer = null;
@@ -131,7 +144,7 @@ namespace SearchLib.Builder
 
                 var tableManager = new TableManager();
 
-                var reviewList = tableManager.GetReviewsById(reviewIds);
+                var reviewList = tableManager.GetReviewsById(GenerateListFromSet(reviewIds));
 
                 foreach (var id in reviewIds)
                 {
@@ -149,8 +162,12 @@ namespace SearchLib.Builder
                         var doc = new Document();
                         doc.Add(new Field(Constants.Constants.Field_Id, reviewEntity.ReviewId, Field.Store.YES,
                                           Field.Index.NOT_ANALYZED));
-                        doc.Add(new Field(Constants.Constants.Field_ReviewerName, reviewEntity.ReviewerName, Field.Store.NO,
+
+                        doc.Add(new Field(Constants.Constants.Field_EntityType, Constants.Constants.Field_EntityType_Reviews, Field.Store.YES,
+                                          Field.Index.NOT_ANALYZED));
+                        doc.Add(new Field(Constants.Constants.Field_ReviewerName, reviewEntity.ReviewerName, Field.Store.YES,
                                           Field.Index.ANALYZED));
+                        doc.Add(new Field(Constants.Constants.Field_EntityType_ReviewText, reviewEntity.Review, Field.Store.YES, Field.Index.ANALYZED));
                         
                         writer.AddDocument(doc);
                     }

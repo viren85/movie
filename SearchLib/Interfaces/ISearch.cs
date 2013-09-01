@@ -8,6 +8,6 @@ namespace SearchLib.Interfaces
 {
     public interface ISearch
     {
-        void GetAllMoviesWith(string textSearch, out List<string> movies, out List<string> reviews, IDictionary<string, string> filters = null);
+        void GetAllMoviesWith(string textSearch, int maxCount, out List<string> movies, out List<string> reviews, IList<string> filters = null);
     }
 }

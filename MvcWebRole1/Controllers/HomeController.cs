@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using DataStoreLib.Storage;
 using DataStoreLib.Utils;
 using Microsoft.WindowsAzure;
@@ -9,6 +10,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DataStoreLib.Models;
+using SearchLib.Builder;
+using SearchLib.Search;
 
 namespace MvcWebRole1.Controllers
 {
@@ -298,6 +301,72 @@ namespace MvcWebRole1.Controllers
             {
                 return err.Message;
             }
+        }
+
+        public string StartIndexing()
+        {
+            SetConnectionString();
+            
+            var indexuilder = IndexBuilder.CreateIndexer(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "indexer"));
+
+            var tobeIndexedTable = TableStore.Instance.GetTable(TableStore.ToBeIndexedTableName) as ToBeIndexedTable;
+            
+            var movies = tobeIndexedTable.GetMoviesTobeIndexed();
+            var reviews = tobeIndexedTable.GetReviewsToBeIndexed();
+
+            indexuilder.IndexSelectedMovies(movies);
+            indexuilder.IndexSelectedReviews(reviews);
+
+            return "done in " + Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "indexer");
+        }
+
+        public string UseIndex()
+        {
+            SetConnectionString();
+
+            var index = IndexQuery.GetIndexReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "indexer"));
+
+            Debug.Assert(index != null);
+
+            var sb = new StringBuilder();
+            List<string> movies, reviews = null;
+            var query = "aishwarya";
+            var filters = new List<string>();
+            filters.Add(SearchLib.Constants.Constants.Field_Actors);
+
+            index.GetAllMoviesWith(query, 100, out movies, out reviews);
+            sb.Append(string.Format("search for {0} returned {1} movies and {2} reviews -- movies {3} -- reviews {4}\r\n",
+                                    query, movies.Count, reviews.Count, string.Join(",", movies.ToArray()),
+                                    string.Join(",", reviews.ToArray())));
+
+            query = "shah";
+            index.GetAllMoviesWith(query, 100, out movies, out reviews);
+            sb.Append(string.Format("search for {0} returned {1} movies and {2} reviews -- movies {3} -- reviews {4}\r\n",
+                                    query, movies.Count, reviews.Count, string.Join(",", movies.ToArray()),
+                                    string.Join(",", reviews.ToArray())));
+
+            query = "rukh";
+            index.GetAllMoviesWith(query, 100, out movies, out reviews);
+            sb.Append(string.Format("search for {0} returned {1} movies and {2} reviews -- movies {3} -- reviews {4}\r\n",
+                                    query, movies.Count, reviews.Count, string.Join(",", movies.ToArray()),
+                                    string.Join(",", reviews.ToArray())));
+            filters = new List<string>();
+            filters.Add(SearchLib.Constants.Constants.Field_Directors);
+            query = "sippy";
+            index.GetAllMoviesWith(query, 100, out movies, out reviews);
+            sb.Append(string.Format("search for {0} returned {1} movies and {2} reviews -- movies {3} -- reviews {4}\r\n",
+                                    query, movies.Count, reviews.Count, string.Join(",", movies.ToArray()),
+                                    string.Join(",", reviews.ToArray())));
+
+            filters = new List<string>();
+            filters.Add(SearchLib.Constants.Constants.Field_Actors);
+            query = "notsippy";
+            index.GetAllMoviesWith(query, 100, out movies, out reviews);
+            sb.Append(string.Format("search for {0} returned {1} movies and {2} reviews -- movies {3} -- reviews {4}\r\n",
+                                    query, movies.Count, reviews.Count, string.Join(",", movies.ToArray()),
+                                    string.Join(",", reviews.ToArray())));
+
+            return sb.ToString();
         }
     }
 }
