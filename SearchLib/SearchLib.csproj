@@ -51,6 +51,7 @@
     <Compile Include="Network\IndexSaveRestore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Search\IndexQuery.cs" />
+    <Compile Include="Search\SearchManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataStoreLib\DataStoreLib.csproj">

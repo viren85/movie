@@ -14,6 +14,7 @@ namespace DataStoreLib.Models
 
         public string MovieId {get; set;}
         public string Name {get; set;}
+        public string AltNames { get; set; }
         public string Actors { get; set; }
         public string Directors { get; set; }
         public string Producers { get; set; }
@@ -30,6 +31,7 @@ namespace DataStoreLib.Models
 
             MovieId = ReadString(properties, "MovieId");
             Name = ReadString(properties, "Name");
+            AltNames = ReadString(properties, "AltNames");
             Actors = ReadString(properties, "Actors");
             Directors = ReadString(properties, "Directors");
             Producers = ReadString(properties, "Producers");
@@ -46,6 +48,7 @@ namespace DataStoreLib.Models
             
             WriteString(dict, "MovieId", MovieId);
             WriteString(dict, "Name", Name);
+            WriteString(dict, "AltNames", AltNames);
             WriteString(dict, "Actors", Actors);
             WriteString(dict, "Directors", Directors);
             WriteString(dict, "Producers", Producers);
@@ -75,6 +78,7 @@ namespace DataStoreLib.Models
         {
             MovieId = entity.MovieId;
             Name = entity.Name;
+            AltNames = entity.AltNames;
             Actors = entity.Actors;
             Directors = entity.Directors;
             Producers = entity.Producers;
@@ -109,6 +113,11 @@ namespace DataStoreLib.Models
         }
 
         #region AccessMethods
+        public List<string> GetAltNames()
+        {
+            return Utils.utils.GetListFromCommaSeparatedString(AltNames);
+        }
+
         public List<string> GetActors()
         {
             return Utils.utils.GetListFromCommaSeparatedString(Actors);
@@ -132,7 +141,12 @@ namespace DataStoreLib.Models
         public List<string> GetReviewIds()
         {
             return Utils.utils.GetListFromCommaSeparatedString(ReviewIds);
-        } 
+        }
+
+        public void SetAltNames(List<string> list)
+        {// todo :: 
+            //AltNames = Utils.utils.GetListFromCommaSeparatedString(AltNames);
+        }
 
         public void SetActors(List<string> list)
         {

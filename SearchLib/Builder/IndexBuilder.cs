@@ -94,8 +94,10 @@ namespace SearchLib.Builder
                         var doc = new Document();
                         doc.Add(new Field(Constants.Constants.Field_Id, movieEntity.MovieId, Field.Store.YES,
                                           Field.Index.NOT_ANALYZED));
-                        doc.Add(new Field(Constants.Constants.Field_EntityType, Constants.Constants.Field_EntityType_Movie, Field.Store.YES,
+                        doc.Add(new Field(Constants.Constants.Field_Name, movieEntity.Name, Field.Store.YES,
                                           Field.Index.NOT_ANALYZED));
+                        doc.Add(new Field(Constants.Constants.Field_AltNames, movieEntity.AltNames, Field.Store.NO, Field.Index.ANALYZED));
+
                         doc.Add(new Field(Constants.Constants.Field_Actors, movieEntity.Actors, Field.Store.NO,
                                           Field.Index.ANALYZED));
                         doc.Add(new Field(Constants.Constants.Field_Directors, movieEntity.Directors, Field.Store.YES,

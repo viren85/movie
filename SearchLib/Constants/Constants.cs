@@ -16,6 +16,7 @@ namespace SearchLib.Constants
 
 
         public static readonly string Field_Name = "MovieName";
+        public static readonly string Field_AltNames = "AltMovieNames";
         public static readonly string Field_Actors = "MovieActors";
         public static readonly string Field_Directors = "MovieDirectors";
         public static readonly string Field_Producers = "MovieProducers";
@@ -25,5 +26,7 @@ namespace SearchLib.Constants
         public static readonly string Field_Type = "Type";
         public static readonly string Field_Type_Movie = "Type_Movie";
         public static readonly string Field_Type_Review = "Type_Review";
+
+        public static readonly List<string> MovieNameFilterList = new List<string> { { Field_Name }, { Field_AltNames } };
     }
 }
