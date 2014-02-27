@@ -113,5 +113,26 @@ namespace DataStoreLib.Storage
 
             return currentMovies;
         }
+
+        /// <summary>
+        /// Return a list of movies order by name
+        /// </summary>
+        /// <param name="store">IStore interface type object</param>        
+        /// <returns></returns>
+        public static List<MovieEntity> GetMoviesSortByName(this IStore store)
+        {
+            var retList = store.GetAllMovies();
+
+            Debug.Assert(retList.Count == 1);
+
+            List<MovieEntity> currentMovies = new List<MovieEntity>();
+
+            if (retList != null && retList.Values != null)
+            {
+                currentMovies = (List<MovieEntity>)retList.Values.OrderBy(m => m.Name).ToList();
+            }
+
+            return currentMovies;
+        }
     }
 }

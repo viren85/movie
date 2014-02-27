@@ -51,8 +51,9 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="MvcWebRole1">
-      <HintPath>..\..\..\SVN-Projects\trunk\movie-master\MvcWebRole1\bin\MvcWebRole1.dll</HintPath>
+    <Reference Include="MvcWebRole1, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\MvcWebRole1.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -198,6 +199,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\api\BaseController.cs" />
     <Compile Include="Controllers\api\MovieInfoController.cs" />
+    <Compile Include="Controllers\api\MoviesController.cs" />
     <Compile Include="Controllers\api\SearchController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovieController.cs" />

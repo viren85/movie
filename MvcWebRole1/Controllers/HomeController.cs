@@ -108,7 +108,15 @@ namespace MvcWebRole1.Controllers
             }
             
             ViewBag.Message = "You searched for " + q + "and the response you got was: " + resp;
-            
+
+            var movie1 = tableMgr.GetCurrentMovies();
+            @ViewBag.MovieEntity = movie1;
+
+            var movie3 = tableMgr.GetMoviesBySearch("search text");
+            @ViewBag.MovieEntity = movie3;
+
+            TestUpdate();
+
             return View();
         }
 
@@ -135,6 +143,8 @@ namespace MvcWebRole1.Controllers
             entity.Name = string.Format("aashique {0}", rand.Next());
             entity.Producers = string.Format("sippy_{0}", rand.Next());
             entity.Actors = string.Format("sahruuk_{0}", rand.Next());
+            entity.Month = "March";
+            entity.Year = "2014";
 
             var reviewIds = entity.GetReviewIds();
             var reviewList = new List<ReviewEntity>();

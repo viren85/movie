@@ -1,16 +1,19 @@
-﻿using System;
+﻿using DataStoreLib.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace MvcWebRole1.Controllers.api
 {
     public class SearchController : BaseController
     {
-        protected override string ProcessRequest()
+        #region Commented code
+        /*protected override string ProcessRequest()
         {
             var qpParams = HttpUtility.ParseQueryString(this.Request.RequestUri.Query);
             if (string.IsNullOrEmpty(qpParams["search"]))
@@ -90,6 +93,26 @@ namespace MvcWebRole1.Controllers.api
 		}
 	]
 }";
+        }*/
+        #endregion
+
+        // get : api/Search?search={searchText}
+        protected override string ProcessRequest()
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer();
+
+            var qpParams = HttpUtility.ParseQueryString(this.Request.RequestUri.Query);
+            if (string.IsNullOrEmpty(qpParams["search"]))
+            {
+                throw new ArgumentException("search text is not present");
+            }
+
+            string searchText = qpParams["search"];
+
+            var tableMgr = new TableManager();
+            var movie = tableMgr.GetMoviesBySearch(searchText);
+
+            return json.Serialize(movie);
         }
     }
 }
