@@ -9,11 +9,11 @@ namespace DataStoreLib.Models
 {
     public class MovieEntity : TableEntity
     {
-#region table members
+        #region table members
         public static readonly string PARTITION_KEY = "CloudMovie";
 
-        public string MovieId {get; set;}
-        public string Name {get; set;}
+        public string MovieId { get; set; }
+        public string Name { get; set; }
         public string AltNames { get; set; }
         public string Actors { get; set; }
         public string Directors { get; set; }
@@ -23,6 +23,9 @@ namespace DataStoreLib.Models
         public string AggregateRating { get; set; }
         public bool HotOrNot { get; set; }
         public string Synopsis { get; set; }
+        public string Month { get; set; }
+        public string Year { get; set; }
+
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties,
                                        Microsoft.WindowsAzure.Storage.OperationContext operationContext)
@@ -40,12 +43,14 @@ namespace DataStoreLib.Models
             AggregateRating = ReadString(properties, "AggregateRating");
             HotOrNot = ReadBool(properties, "HotOrNot");
             Synopsis = ReadString(properties, "Synopsis");
+            Month = ReadString(properties, "Month");
+            Year = ReadString(properties, "Year");
         }
 
         public override IDictionary<string, EntityProperty> WriteEntity(Microsoft.WindowsAzure.Storage.OperationContext operationContext)
         {
             var dict = MergeDicts(base.WriteEntity(operationContext));
-            
+
             WriteString(dict, "MovieId", MovieId);
             WriteString(dict, "Name", Name);
             WriteString(dict, "AltNames", AltNames);
@@ -57,15 +62,17 @@ namespace DataStoreLib.Models
             WriteString(dict, "AggregateRating", AggregateRating);
             WriteBool(dict, "HotOrNot", HotOrNot);
             WriteString(dict, "Synopsis", Synopsis);
+            WriteString(dict, "Month", Month);
+            WriteString(dict, "Year", Year);
 
             return dict;
         }
-#endregion
+        #endregion
 
         public MovieEntity()
             : base(PARTITION_KEY, "")
         {
-            
+
         }
 
         public MovieEntity(string rowKey)

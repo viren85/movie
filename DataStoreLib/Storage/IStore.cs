@@ -13,6 +13,10 @@ namespace DataStoreLib.Storage
         IDictionary<string, MovieEntity> GetMoviesByid(List<string> id);
         IDictionary<string, ReviewEntity> GetReviewsById(List<string> id);
 
+        /* added a new method for getting all movies*/
+        IDictionary<string, MovieEntity> GetAllMovies();
+        /* end */
+
         IDictionary<MovieEntity, bool> UpdateMoviesById(List<MovieEntity> movies);
         IDictionary<ReviewEntity, bool> UpdateReviewsById(List<ReviewEntity> reviews);
     }
@@ -57,6 +61,57 @@ namespace DataStoreLib.Storage
 
             Debug.Assert(retList.Count == 1);
             return retList[retList.Keys.FirstOrDefault()];
+        }
+
+        /* Method added by vasim */
+        /// <summary>
+        /// get list of current running (in theaters) movies
+        /// </summary>
+        /// <param name="store"></param>
+        /// <returns></returns>
+        public static List<MovieEntity> GetCurrentMovies(this IStore store)
+        {
+            var retList = store.GetAllMovies();
+            Debug.Assert(retList.Count == 1);
+
+            List<MovieEntity> currentMovies = new List<MovieEntity>();
+
+            foreach (var currentMovie in retList.Values)
+            {
+                string currentMonth = DateTime.Now.ToString("MMM");
+                string year = DateTime.Now.Year.ToString();
+
+                if (currentMovie.Month == currentMonth && currentMovie.Year == year)
+                {
+                    currentMovies.Add(currentMovie);
+                }
+            }
+
+            return currentMovies;
+        }
+
+        /// <summary>
+        /// search movies and return a list of movies according to search text
+        /// </summary>
+        /// <param name="store">IStore interface type object</param>
+        /// <param name="searchText">search text like name of the movie etc</param>
+        /// <returns></returns>
+        public static List<MovieEntity> GetMoviesBySearch(this IStore store, string searchText)
+        {
+            var retList = store.GetAllMovies();
+            Debug.Assert(retList.Count == 1);
+
+            List<MovieEntity> currentMovies = new List<MovieEntity>();
+
+            foreach (var currentMovie in retList.Values)
+            {
+                if (currentMovie.Name.Contains(searchText))
+                {
+                    currentMovies.Add(currentMovie);
+                }
+            }
+
+            return currentMovies;
         }
     }
 }

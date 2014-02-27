@@ -87,6 +87,33 @@ namespace DataStoreLib.Storage
             return returnDict;
         }
 
+        public virtual IDictionary<string, TEntity> GetAllItems<TEntity>() where TEntity : DataStoreLib.Models.TableEntity
+        {
+            Debug.Assert(_table != null);
+
+            var operationList = new Dictionary<string, TableResult>();
+
+            TableQuery<MovieEntity> query = new TableQuery<MovieEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "CloudMovie"));
+
+            // execute query
+            IEnumerable<MovieEntity> movieResults = _table.ExecuteQuery<MovieEntity>(query);
+
+            var returnDict = new Dictionary<string, TEntity>();
+            int iter = 0;
+
+            foreach (var tableResult in movieResults)
+            {
+                TEntity entity = null;
+
+                entity = tableResult as TEntity;
+
+                returnDict.Add(tableResult.MovieId, entity);
+                iter++;
+            }
+
+            return returnDict;
+        }
+
         protected abstract string GetParitionKey();
     }
 

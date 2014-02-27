@@ -57,5 +57,13 @@ namespace DataStoreLib.Storage
             }
             return returnTranslateOp;
         }
+
+        /* Added a method for getting all movies*/
+        public IDictionary<string, MovieEntity> GetAllMovies()
+        {
+            var movieTable = TableStore.Instance.GetTable(TableStore.MovieTableName);
+            return movieTable.GetAllItems<MovieEntity>();
+        }
+        /*end*/
     }
 }

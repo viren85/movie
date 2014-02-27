@@ -1,6 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7F58AA6B-5E0B-457C-9C5F-4DF1995FB1BB}"
+	ProjectSection(SolutionItems) = preProject
+		Windows Azure MSDN - Visual Studio Ultimate-7-19-2013-credentials.publishsettings = Windows Azure MSDN - Visual Studio Ultimate-7-19-2013-credentials.publishsettings
+	EndProjectSection
+EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "CloudMovie", "CloudMovie\CloudMovie.ccproj", "{B052414F-2F75-4768-9BD9-63D3D83E411C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiRole", "MvcWebRole1\WebApiRole.csproj", "{1F996680-E16A-4BB3-BD9B-561F45F348CA}"
@@ -8,11 +15,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRole1", "WorkerRole1\WorkerRole1.csproj", "{85E6FF1B-089D-41FE-B606-4DA386C55EFC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStoreLib", "DataStoreLib\DataStoreLib.csproj", "{85319D65-37E0-49B0-BBB8-6143CDA747C6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7F58AA6B-5E0B-457C-9C5F-4DF1995FB1BB}"
-	ProjectSection(SolutionItems) = preProject
-		Windows Azure MSDN - Visual Studio Ultimate-7-19-2013-credentials.publishsettings = Windows Azure MSDN - Visual Studio Ultimate-7-19-2013-credentials.publishsettings
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchLib", "SearchLib\SearchLib.csproj", "{26F374D4-322F-404A-911E-86F8476BD740}"
 EndProject

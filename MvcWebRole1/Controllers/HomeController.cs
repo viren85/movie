@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using DataStoreLib.Models;
 using SearchLib.Builder;
 using SearchLib.Search;
+using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace MvcWebRole1.Controllers
 {
