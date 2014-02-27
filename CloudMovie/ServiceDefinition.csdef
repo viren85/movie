@@ -25,6 +25,9 @@
       <Import moduleName="RemoteAccess" />
       <Import moduleName="RemoteForwarder" />
     </Imports>
+    <ConfigurationSettings>
+      <Setting name="StorageTableConnectionString" />
+    </ConfigurationSettings>
   </WorkerRole>
   <WebRole name="EditorialRole" vmsize="Small">
     <Sites>
@@ -41,5 +44,8 @@
       <Import moduleName="Diagnostics" />
       <Import moduleName="RemoteAccess" />
     </Imports>
+    <ConfigurationSettings>
+      <Setting name="StorageTableConnectionString" />
+    </ConfigurationSettings>
   </WebRole>
 </ServiceDefinition>
