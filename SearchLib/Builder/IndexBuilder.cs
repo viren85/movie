@@ -98,15 +98,15 @@ namespace SearchLib.Builder
                                           Field.Index.NOT_ANALYZED));
                         doc.Add(new Field(Constants.Constants.Field_AltNames, movieEntity.AltNames, Field.Store.NO, Field.Index.ANALYZED));
 
-                        doc.Add(new Field(Constants.Constants.Field_Actors, movieEntity.Actors, Field.Store.NO,
+                        doc.Add(new Field(Constants.Constants.Field_Actors, movieEntity.Posters, Field.Store.NO,
                                           Field.Index.ANALYZED));
-                        doc.Add(new Field(Constants.Constants.Field_Directors, movieEntity.Directors, Field.Store.YES,
+                        doc.Add(new Field(Constants.Constants.Field_Directors, movieEntity.Ratings, Field.Store.YES,
                                           Field.Index.ANALYZED));
-                        doc.Add(new Field(Constants.Constants.Field_MusicDirectors, movieEntity.MusicDirectors,
+                        doc.Add(new Field(Constants.Constants.Field_MusicDirectors, movieEntity.Casts,
                                           Field.Store.YES, Field.Index.ANALYZED));
                         doc.Add(new Field(Constants.Constants.Field_Name, movieEntity.Name, Field.Store.YES,
                                           Field.Index.ANALYZED));
-                        doc.Add(new Field(Constants.Constants.Field_Producers, movieEntity.Producers, Field.Store.YES,
+                        doc.Add(new Field(Constants.Constants.Field_Producers, movieEntity.Synopsis, Field.Store.YES,
                                           Field.Index.ANALYZED));
                         doc.Add(new Field(Constants.Constants.Field_MovieSynopsis, movieEntity.Synopsis, Field.Store.YES,
                                           Field.Index.ANALYZED));

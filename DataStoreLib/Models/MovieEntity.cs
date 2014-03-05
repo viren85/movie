@@ -15,14 +15,15 @@ namespace DataStoreLib.Models
         public string MovieId { get; set; }
         public string Name { get; set; }
         public string AltNames { get; set; }
-        public string Actors { get; set; }
-        public string Directors { get; set; }
-        public string Producers { get; set; }
-        public string MusicDirectors { get; set; }
-        public string ReviewIds { get; set; }
-        public string AggregateRating { get; set; }
-        public bool HotOrNot { get; set; }
+        public string Posters { get; set; }
+        public string Ratings { get; set; }
         public string Synopsis { get; set; }
+        public string Casts { get; set; }
+        public string Stats { get; set; }
+        public string Songs { get; set; }
+        public string Trailers { get; set; }
+        public string Pictures { get; set; }
+        public string Genre { get; set; }
         public string Month { get; set; }
         public string Year { get; set; }
 
@@ -35,14 +36,15 @@ namespace DataStoreLib.Models
             MovieId = ReadString(properties, "MovieId");
             Name = ReadString(properties, "Name");
             AltNames = ReadString(properties, "AltNames");
-            Actors = ReadString(properties, "Actors");
-            Directors = ReadString(properties, "Directors");
-            Producers = ReadString(properties, "Producers");
-            MusicDirectors = ReadString(properties, "MusicDirectors");
-            ReviewIds = ReadString(properties, "ReviewIds");
-            AggregateRating = ReadString(properties, "AggregateRating");
-            HotOrNot = ReadBool(properties, "HotOrNot");
+            Posters = ReadString(properties, "Posters");
+            Ratings = ReadString(properties, "Rating");
             Synopsis = ReadString(properties, "Synopsis");
+            Casts = ReadString(properties, "Cast");
+            Stats = ReadString(properties, "Stats");
+            Songs = ReadString(properties, "Songs");
+            Trailers = ReadString(properties, "Trailers");
+            Pictures = ReadString(properties, "Pictures");
+            Genre = ReadString(properties, "Genre");
             Month = ReadString(properties, "Month");
             Year = ReadString(properties, "Year");
         }
@@ -54,21 +56,21 @@ namespace DataStoreLib.Models
             WriteString(dict, "MovieId", MovieId);
             WriteString(dict, "Name", Name);
             WriteString(dict, "AltNames", AltNames);
-            WriteString(dict, "Actors", Actors);
-            WriteString(dict, "Directors", Directors);
-            WriteString(dict, "Producers", Producers);
-            WriteString(dict, "MusicDirectors", MusicDirectors);
-            WriteString(dict, "ReviewIds", ReviewIds);
-            WriteString(dict, "AggregateRating", AggregateRating);
-            WriteBool(dict, "HotOrNot", HotOrNot);
+            WriteString(dict, "Posters", Posters);
+            WriteString(dict, "Rating", Ratings);
             WriteString(dict, "Synopsis", Synopsis);
+            WriteString(dict, "Cast", Casts);
+            WriteString(dict, "Stats", Stats);
+            WriteString(dict, "Songs", Songs);
+            WriteString(dict, "Trailers", Trailers);
+            WriteString(dict, "Pictures", Pictures);
             WriteString(dict, "Month", Month);
             WriteString(dict, "Year", Year);
+            WriteString(dict, "Genre", Genre);
 
             return dict;
         }
         #endregion
-
         public MovieEntity()
             : base(PARTITION_KEY, "")
         {
@@ -86,35 +88,47 @@ namespace DataStoreLib.Models
             MovieId = entity.MovieId;
             Name = entity.Name;
             AltNames = entity.AltNames;
-            Actors = entity.Actors;
-            Directors = entity.Directors;
-            Producers = entity.Producers;
-            MusicDirectors = entity.MusicDirectors;
-            ReviewIds = entity.ReviewIds;
-            AggregateRating = entity.AggregateRating;
-            HotOrNot = entity.HotOrNot;
+            Posters = entity.Posters;
+            Ratings = entity.Ratings;
+            Synopsis = entity.Synopsis;
+            Casts = entity.Casts;
+            Stats = entity.Stats;
+            Songs = entity.Songs;
+            Trailers = entity.Trailers;
+            Pictures = entity.Pictures;
+            Genre = entity.Genre;
+            Month = entity.Month;
+            Year = entity.Year;
         }
 
         public static MovieEntity CreateMovieEntity(string name,
-                                                    string actors,
-                                                    string directors,
-                                                    string producers,
-                                                    string musicDirecotrs,
-                                                    string reviewIds,
-                                                    string aggregateRating,
-                                                    bool hotOrNot)
+                                                    string posters,
+                                                    string rating,
+                                                    string synopsis,
+                                                    string cast,
+                                                    string stats,
+                                                    string songs,
+                                                    string trailers,
+                                                    string pictures,
+                                                    string genre,
+                                                    string month, 
+                                                    string year)
         {
             var movieId = Guid.NewGuid().ToString();
             var entity = new MovieEntity(movieId);
             entity.MovieId = movieId;
             entity.Name = name;
-            entity.Actors = actors;
-            entity.Directors = directors;
-            entity.Producers = producers;
-            entity.MusicDirectors = musicDirecotrs;
-            entity.ReviewIds = reviewIds;
-            entity.AggregateRating = aggregateRating;
-            entity.HotOrNot = hotOrNot;
+            entity.Posters = posters;
+            entity.Ratings = rating;
+            entity.Synopsis = synopsis;
+            entity.Casts = cast;
+            entity.Stats = stats;
+            entity.Songs = songs;
+            entity.Trailers = trailers;
+            entity.Pictures = pictures;
+            entity.Genre = genre;
+            entity.Month = month;
+            entity.Year = year;
 
             return entity;
         }
@@ -127,27 +141,27 @@ namespace DataStoreLib.Models
 
         public List<string> GetActors()
         {
-            return Utils.utils.GetListFromCommaSeparatedString(Actors);
+            return Utils.utils.GetListFromCommaSeparatedString(Posters);
         }
 
         public List<string> GetDirectors()
         {
-            return Utils.utils.GetListFromCommaSeparatedString(Directors);
+            return Utils.utils.GetListFromCommaSeparatedString(Ratings);
         }
 
         public List<string> GetProducers()
         {
-            return Utils.utils.GetListFromCommaSeparatedString(Producers);
+            return Utils.utils.GetListFromCommaSeparatedString(Synopsis);
         }
 
         public List<string> GetMusicDirectors()
         {
-            return Utils.utils.GetListFromCommaSeparatedString(MusicDirectors);
+            return Utils.utils.GetListFromCommaSeparatedString(Casts);
         }
 
         public List<string> GetReviewIds()
         {
-            return Utils.utils.GetListFromCommaSeparatedString(ReviewIds);
+            return Utils.utils.GetListFromCommaSeparatedString(Stats);
         }
 
         public void SetAltNames(List<string> list)
@@ -157,22 +171,22 @@ namespace DataStoreLib.Models
 
         public void SetActors(List<string> list)
         {
-            Actors = Utils.utils.GetCommaSeparatedStringFromList(list);
+            Posters = Utils.utils.GetCommaSeparatedStringFromList(list);
         }
 
         public void SetDirectors(List<string> list)
         {
-            Directors = Utils.utils.GetCommaSeparatedStringFromList(list);
+            Ratings = Utils.utils.GetCommaSeparatedStringFromList(list);
         }
 
         public void SetMusicDirectors(List<string> list)
         {
-            MusicDirectors = Utils.utils.GetCommaSeparatedStringFromList(list);
+            Casts = Utils.utils.GetCommaSeparatedStringFromList(list);
         }
 
         public void SetReviewIds(List<string> list)
         {
-            ReviewIds = Utils.utils.GetCommaSeparatedStringFromList(list);
+            Stats = Utils.utils.GetCommaSeparatedStringFromList(list);
         }
 
         #endregion

@@ -15,7 +15,12 @@ namespace DataStoreLib.Storage
 
         /* added a new method for getting all movies*/
         IDictionary<string, MovieEntity> GetAllMovies();
+        IDictionary<string, ReviewEntity> GetReviewsByMovieId(string movieId);
+
+        IDictionary<string, ReviewEntity> GetReviewsByReviewer(string reviewerName);
+
         /* end */
+
 
         IDictionary<MovieEntity, bool> UpdateMoviesById(List<MovieEntity> movies);
         IDictionary<ReviewEntity, bool> UpdateReviewsById(List<ReviewEntity> reviews);
@@ -63,7 +68,7 @@ namespace DataStoreLib.Storage
             return retList[retList.Keys.FirstOrDefault()];
         }
 
-        /* Method added by vasim */
+        /* Method added */
         /// <summary>
         /// get list of current running (in theaters) movies
         /// </summary>
@@ -72,13 +77,13 @@ namespace DataStoreLib.Storage
         public static List<MovieEntity> GetCurrentMovies(this IStore store)
         {
             var retList = store.GetAllMovies();
-            Debug.Assert(retList.Count == 1);
+            //Debug.Assert(retList.Count == 1);
 
             List<MovieEntity> currentMovies = new List<MovieEntity>();
 
             foreach (var currentMovie in retList.Values)
             {
-                string currentMonth = DateTime.Now.ToString("MMM");
+                string currentMonth = DateTime.Now.ToString("MMMM");
                 string year = DateTime.Now.Year.ToString();
 
                 if (currentMovie.Month == currentMonth && currentMovie.Year == year)
@@ -96,16 +101,16 @@ namespace DataStoreLib.Storage
         /// <param name="store">IStore interface type object</param>
         /// <param name="searchText">search text like name of the movie etc</param>
         /// <returns></returns>
-        public static List<MovieEntity> GetMoviesBySearch(this IStore store, string searchText)
+        public static List<MovieEntity> SearchMovies(this IStore store, string searchText)
         {
             var retList = store.GetAllMovies();
-            Debug.Assert(retList.Count == 1);
+            //Debug.Assert(retList.Count == 1);
 
             List<MovieEntity> currentMovies = new List<MovieEntity>();
 
             foreach (var currentMovie in retList.Values)
             {
-                if (currentMovie.Name.Contains(searchText))
+                if (currentMovie.Name.ToLower().Contains(searchText.ToLower()))
                 {
                     currentMovies.Add(currentMovie);
                 }
@@ -119,11 +124,11 @@ namespace DataStoreLib.Storage
         /// </summary>
         /// <param name="store">IStore interface type object</param>        
         /// <returns></returns>
-        public static List<MovieEntity> GetMoviesSortByName(this IStore store)
+        public static List<MovieEntity> GetSortedMoviesByName(this IStore store)
         {
             var retList = store.GetAllMovies();
 
-            Debug.Assert(retList.Count == 1);
+            //Debug.Assert(retList.Count == 1);
 
             List<MovieEntity> currentMovies = new List<MovieEntity>();
 
@@ -133,6 +138,6 @@ namespace DataStoreLib.Storage
             }
 
             return currentMovies;
-        }
+        }        
     }
 }

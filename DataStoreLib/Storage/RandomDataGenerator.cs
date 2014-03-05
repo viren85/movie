@@ -76,16 +76,16 @@ namespace DataStoreLib.Storage
             var entity = new MovieEntity(id);
             var rand = new Random();
 
-            entity.Actors = GetRandomElementsFromList(Actors, rand);
-            entity.AggregateRating = rand.Next(10).ToString();
-            entity.Directors = GetRandomElementsFromList(Directors, rand);
-            entity.HotOrNot = rand.Next(2) == 1 ? true : false;
+            entity.Posters = GetRandomElementsFromList(Actors, rand);
+            entity.Songs = rand.Next(10).ToString();
+            entity.Ratings = GetRandomElementsFromList(Directors, rand);
+            entity.Trailers = "Trailers";
             entity.MovieId = id;
-            entity.MusicDirectors = GetRandomElementsFromList(MusicDirecotrs, rand);
+            entity.Casts = GetRandomElementsFromList(MusicDirecotrs, rand);
             entity.Name = GetRandomMovieName(Name, rand);
-            entity.Producers = GetRandomElementsFromList(Producers, rand);
+            entity.Synopsis = GetRandomElementsFromList(Producers, rand);
 
-            entity.ReviewIds = GetRandomElementsFromList(ReviewIds, rand);
+            entity.Stats = GetRandomElementsFromList(ReviewIds, rand);
 
 
             return entity;

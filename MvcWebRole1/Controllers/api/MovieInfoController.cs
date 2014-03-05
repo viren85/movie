@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Script.Serialization;
+using DataStoreLib.Models;
 
 namespace MvcWebRole1.Controllers.api
 {
@@ -123,28 +124,23 @@ namespace MvcWebRole1.Controllers.api
             if (movie != null)
             {
                 movieInfo.movieId = movie.MovieId;
-                movieInfo.name = movie.MovieId;
+                movieInfo.Movie = movie;
 
                 var reviews = movie.GetReviewIds();
-                var reviewList = tableMgr.GetReviewsById(reviews);
 
-                List<Review> userReviews = new List<Review>();
+                var reviewList = tableMgr.GetReviewsByMovieId(movieInfo.movieId);
+
+                List<ReviewEntity> userReviews = new List<ReviewEntity>();
 
                 if (reviewList != null)
                 {
                     foreach (var review in reviewList)
                     {
-                        Review userReview = new Review();
-                        userReview.name = review.Value.ReviewerName;
-                        userReview.summary = review.Value.Review;
-                        Rating rating = new Rating();
-                        rating.critic = review.Value.ReviewerRating;
-                        rating.system = review.Value.SystemRating;
-                        userReview.rating = rating;
+                        userReviews.Add(review.Value);
                     }
                 }
 
-                movieInfo.reviews = userReviews;
+                movieInfo.MovieReviews = userReviews;
             }
 
 
@@ -154,6 +150,9 @@ namespace MvcWebRole1.Controllers.api
 
     public class MovieInfo
     {
+        public MovieEntity Movie { get; set; }
+        public List<ReviewEntity> MovieReviews { get; set; }
+        public List<MovieEntity> MoviesList { get; set; }
         public string movieId { get; set; }
         public string name { get; set; }
         public PosterInfo poster { get; set; }

@@ -64,6 +64,18 @@ namespace DataStoreLib.Storage
             var movieTable = TableStore.Instance.GetTable(TableStore.MovieTableName);
             return movieTable.GetAllItems<MovieEntity>();
         }
+
+        public IDictionary<string, Models.ReviewEntity> GetReviewsByMovieId(string movieId)
+        {
+            var reviewTable = TableStore.Instance.GetTable(TableStore.ReviewTableName);
+            return reviewTable.GetItemsByMovieId<ReviewEntity>(movieId);
+        }
+
+        public IDictionary<string, ReviewEntity> GetReviewsByReviewer(string reviewerName)
+        {
+            var reviewTable = TableStore.Instance.GetTable(TableStore.ReviewTableName);
+            return reviewTable.GetItemsByReivewer<ReviewEntity>(reviewerName);
+        }
         /*end*/
     }
 }

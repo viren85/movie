@@ -1,0 +1,173 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Mirchi</title>
+    @Styles.Render("~/Content/bootstrap.min.css")
+    @Styles.Render("~/Content/bootstrap-theme.min.css")
+    @Styles.Render("~/Content/bootstrap-responsive.css")
+    @Scripts.Render("~/Content/jquery-1.9.1.js")
+    @Scripts.Render("~/Content/bootstrap.min.js")
+    @Scripts.Render("~/Content/movie.core.js")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/base/css")
+
+    <meta name="robots" content="NOODP" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        .movie-title {
+            float: left;
+            width: 153px;
+            padding: 4px;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .activity {
+            float: left;
+            width: 100%;
+            padding: 0%;
+            text-align: left;
+            list-style: none;
+        }
+
+        .activityContainer {
+            border-top: solid 1px #ccc;
+            padding: 1%;
+            /* min-height: 66px; */
+            width: 100%;
+            float: left;
+        }
+
+            .activityContainer:hover {
+                background-color: #F5F5F5;
+                cursor: pointer;
+                border-radius: 0px;
+            }
+
+        .reviewer {
+            float: left;
+            width: 15%;
+        }
+
+        .review {
+            float: left;
+            width: 85%;
+        }
+
+        .moviegenre {
+            margin-top: 1%;
+            float: left;
+            width: 100%;
+        }
+
+        .star-box-giga-star {
+            background-position: -180px -71px;
+            width: 66px;
+            height: 66px;
+            line-height: 66px;
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 15px;
+            font-weight: bold;
+            color: black;
+            font-family: tahoma;
+            float: left;
+            padding-right: 5px;
+        }
+
+        .titlePageSprite {
+            background-image: url(/images/titlePageSprite-407338954._V_.png);
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+    <script>
+
+        $(function () {
+            $("#txtSearch").autocomplete({
+                source: '@Url.Action("AutoCompleteCountry", "Movie")'
+                , minLength: 0
+            });
+        });
+
+    </script>
+</head>
+<body style="background-color: #D5D5D5">
+    <div class="container">
+        <div class="row">
+            <div class="navbar navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Movie Mirchi", "Index", "Home", null, new { @class = "navbar-brand", @title = "Find your movie", @rel = "home" })
+                </div>
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <div class="col-sm-6 col-md-6">
+                        <form class="navbar-form" role="search" method="get" id="search-form" name="search-form">
+                            <div class="btn-group pull-left" style="margin-right:10px; display:block">
+                                <select id="searchtype" class="form-control" style="margin: 0;margin-left: 11%;border-radius: 4px 0px 0px 4px;">
+                                    <option>
+                                        All
+                                    </option>
+                                    <option>
+                                        Title
+                                    </option>
+                                    <option>
+                                        Character
+                                    </option>
+                                    <option>
+                                        Name
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search..." id="txtSearch" name="query" value="" style="border-radius: 0px;">
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-success">Go</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-2 col-md-2" style="display:none">
+                        <form class="navbar-form navbar-right" role="search">
+                            <div class="input-group"><a href="#" class="btn btn-warning">Post Your Ads</a></div>
+                        </form>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a data-toggle="modal" href="#" data-target="#">Login</a></li>
+                        <li><a data-toggle="modal" href="#" data-target="#">Register</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            @RenderBody()
+            <div class="col-sm-4" style="padding: 0px 0px 0px 5px; float: right; ">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">News</h3>
+                    </div>
+                    <div class="panel-body">
+                        <img src="~/Images/breaking-news.jpg" style="width:99%; height: 250px;" data-src="holder.js/200x200" class="img-thumbnail" alt="200x200">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -9,7 +9,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace DataStoreLib.Models
 {
-    public abstract class TableEntity : TableServiceEntity, ITableEntity
+    public class TableEntity : TableServiceEntity, ITableEntity
     {
         #region table elements
         // none here, implements the base classs
@@ -129,7 +129,8 @@ namespace DataStoreLib.Models
             }
             else
             {
-                return DateTime.MinValue;
+                //return DateTime.MinValue;
+                return DateTime.Now;
             }
         }
 

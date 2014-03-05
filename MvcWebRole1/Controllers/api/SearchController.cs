@@ -97,22 +97,26 @@ namespace MvcWebRole1.Controllers.api
         #endregion
 
         // get : api/Search?search={searchText}
+        //protected override string ProcessRequest()
         protected override string ProcessRequest()
         {
             JavaScriptSerializer json = new JavaScriptSerializer();
 
             var qpParams = HttpUtility.ParseQueryString(this.Request.RequestUri.Query);
-            if (string.IsNullOrEmpty(qpParams["search"]))
+            if (string.IsNullOrEmpty(qpParams["term"]))
             {
                 throw new ArgumentException("search text is not present");
             }
 
-            string searchText = qpParams["search"];
+            string searchText = qpParams["term"];
 
             var tableMgr = new TableManager();
-            var movie = tableMgr.GetMoviesBySearch(searchText);
+            var movie = tableMgr.SearchMovies(searchText);
 
-            return json.Serialize(movie);
+            var users = (from u in movie where u.Name.Contains(searchText)
+                         select u.Name).Distinct().ToArray();
+
+            return json.Serialize(users);
         }
     }
 }
